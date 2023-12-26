@@ -1,4 +1,5 @@
 #include<iostream>
+#include<map>
 using namespace std;
 
 //Circular linked list
@@ -61,6 +62,21 @@ void insertAtPos(Node* &head, int value, int pos){
     return ;
 }
 
+bool isCircularList(Node* head){
+    if(head == NULL)
+        return NULL;
+    map<Node*,bool> mp;
+    mp[head] = true;
+    Node* temp = head->next;
+    while(temp != NULL && temp != head && mp[temp] != true){
+        mp[temp] = true;
+        temp = temp->next ;
+    }
+    if(temp == NULL)
+        return false;
+    return true;
+}
+
 void print(Node* head){
     Node* ptr = head;
     cout << ptr->data ; 
@@ -82,6 +98,14 @@ int main(){
     insertAtPos(head,5,2);
     insertAtPos(head,6,1);
     print(head);
+    Node* temp=head;
+    while(temp->next != NULL){
+        temp = temp->next;
+    }
+    temp->next = head->next->next->next;
+
+    if(isCircularList(head))
+        cout << "Linked List circular in nature." << endl;
 
     return 0;
 }
